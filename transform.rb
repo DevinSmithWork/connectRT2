@@ -207,10 +207,28 @@ end
 ###################################################################################################
 def convertOALocation(ark, metaHash, data)
   loc = metaHash.delete("oa-location-url")
-  if loc =~ %r{ucelinks.cdlib.org}
-    userErrorHalt(ark, "The link you provided may not be accessible to readers outside of UC. \n" +
-                       "Please provide a link to an open access version of this article.")
+  
+  # UC Campus search strings
+  UCSearchURLs = [
+    "https://search.library.berkeley.edu/openurl/01UCS_BER/01UCS_BER:UCB?",
+    "https://search.library.ucdavis.edu/openurl/01UCD_INST/01UCD_INST:UCD?",
+    "https://uci.primo.exlibrisgroup.com/openurl/01CDL_IRV_INST/01CDL_IRV_INST:UCI?",
+    "https://search.library.ucla.edu/openurl/01UCS_LAL/01UCS_LAL:UCLA?",
+    "https://ucmerced.primo.exlibrisgroup.com/openurl/01UCS_UCM/01UCS_UCM:UCM?",
+    "https://search.library.ucr.edu/openurl/01CDL_RIV_INST/01CDL_RIV_INST:UCR?",
+    "https://search.library.ucsb.edu/openurl/01UCSB_INST/01UCSB_INST:UCSB?",
+    "https://ucsc.primo.exlibrisgroup.com/openurl/01CDL_SCR_INST/01CDL_SCR_INST:USCS?",
+    "https://search-library.ucsd.edu/openurl/01UCS_SDI/01UCS_SDI:UCSD?",
+    "https://search.library.ucsf.edu/openurl/01UCS_SAF/01UCS_SAF:UCSF?"
+  ]
+  for i in UCSearchURLs do
+    if loc.include? i
+      userErrorHalt(ark, "The link you provided may not be accessible to readers outside of UC. \n" +
+                         "Please provide a link to an open access version of this article.")
+      break
+    end
   end
+  
   if loc =~ %r{escholarship.org}
     userErrorHalt(ark, "The link you provided is to an existing eScholarship item. \n" +
                        "There is no need to re-deposit this item.")
