@@ -207,9 +207,10 @@ end
 ###################################################################################################
 def convertOALocation(ark, metaHash, data)
   loc = metaHash.delete("oa-location-url")
-  if loc =~ %r{ucelinks.cdlib.org}
+  if loc =~ %r{openurl}
     userErrorHalt(ark, "The link you provided may not be accessible to readers outside of UC. \n" +
                        "Please provide a link to an open access version of this article.")
+    puts("openurl detected.")
   end
   if loc =~ %r{escholarship.org}
     userErrorHalt(ark, "The link you provided is to an existing eScholarship item. \n" +
