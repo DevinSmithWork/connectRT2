@@ -107,8 +107,13 @@ end
 ###################################################################################################
 def convertFileVersion(fileVersion)
   case fileVersion
+    # Pre-v6.8 terms
     when /(Author final|Submitted) version/; 'AUTHOR_VERSION'
     when "Published version"; 'PUBLISHER_VERSION'
+    # Post-v6.8 terms
+    when /(Publisher's|Published) version/; 'PUBLISHER_VERSION'
+    when /(Accepted|Submitted) version*/,
+         "Author's accepted manuscript";'AUTHOR_VERSION'
     else raise "Unrecognized file version '#{fileVersion}'"
   end
 end
